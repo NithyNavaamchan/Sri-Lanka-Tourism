@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do-List</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'><link rel="stylesheet" href="ToDostyle.css">
+
+</head>
+<body>
+
+<div id="app">
+  <div class="todo-container">
+    <div class="add-item">
+      <div class="add-icon" @click="addItem">
+        <i class="fas fa-plus"></i>
+      </div>
+      <form @submit.prevent="addItem">
+        <input type="text" placeholder="Add a to-do..." v-model="entry">
+      </form>
+      <div class="feature-icon" :class="{'red-bg': entryFavorite}">
+        <i v-if="!entryFavorite" class="far fa-star" @click="entryFavorite = !entryFavorite"></i>
+        <i v-else class="fas fa-star" @click="entryFavorite = !entryFavorite"></i>
+      </div>
+    </div>
+    <div class="todo-list">
+      <div class="item" :class="{'show': item.show}" v-for="(item, index) in todoList" :key="index">
+        <div class="item-checkbox">
+          <i v-if="!item.complete" class="fas fa-square" @click="completeItem(item)"></i>
+          <i v-else class="fas fa-check-square"></i>
+        </div>
+        <div class="item-title">
+          {{ item.title }}
+        </div>
+        <div class="feature-icon" :class="{'red-bg': item.favorite}">
+          <i v-if="!item.favorite" class="far fa-star" @click="setFavoriteItem(item)"></i>
+          <i v-else class="fas fa-star" @click="item.favorite = !item.favorite"></i>
+        </div>
+      </div>
+    </div>
+    <div class="show-completed" v-if="completedToDoList.length > 0">
+      <div class="button" @click="showCompletedList = !showCompletedList">
+        <span v-if="!showCompletedList">show</span><span v-else>hide</span> 
+        completed to-do List
+      </div>
+    </div>
+    <div class="todo-list complete-list" v-if="showCompletedList">
+      <div class="item" :class="{'show': item.show}" v-for="(item, index) in completedToDoList" :key="index">
+        <div class="item-checkbox">
+          <i v-if="!item.complete" class="fas fa-square"></i>
+          <i v-else class="fas fa-check-square" @click="uncompleteItem(item)"></i>
+        </div>
+        <div class="item-title">
+          {{ item.title }}
+        </div>
+        <div class="feature-icon" :class="{'red-bg': item.favorite}">
+          <i v-if="!item.favorite" class="far fa-star"></i>
+          <i v-else class="fas fa-star"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script><script  src="ToDoScript.js"></script>
+
+</body>
+</html>
